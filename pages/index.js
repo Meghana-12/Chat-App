@@ -9,7 +9,6 @@ export default function Home() {
 				<title>Whats app clone 🚀 </title>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<h1>Heyy there!!</h1>
 		</div>
 	);
 }
