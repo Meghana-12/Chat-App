@@ -15,7 +15,8 @@ function Sidebar() {
 	const userChats = db
 		.collection("chats")
 		.where("users", "array-contains", user.email);
-	const chatsSnap = useCollection(userChats);
+	const [chatsSnap] = useCollection(userChats);
+	console.log("hey:", chatsSnap, userChats);
 	const createChat = () => {
 		const input = prompt("Please enter the email address");
 		if (!input) return null;
@@ -25,12 +26,12 @@ function Sidebar() {
 			!duplicateCheck(input)
 		) {
 			// console.log("works!");
-			db.collection("chat").add({ users: [user.email, input] });
+			db.collection("chats").add({ users: [user.email, input] });
 		}
 	};
 	const duplicateCheck = (recipient) => {
-		!!chatsSnap?.docs?.find((chat) => {
-			chat.data().users.find((user) => user.email === recipient)?.length > 0;
+		!!chatsSnap?.docs.find((chat) => {
+			chat.data().users.find((user) => user === recipient)?.length > 0;
 			// go through the chats that exist
 			// either return val or null /undefined
 			// !! : if value is truthy returns true
@@ -49,7 +50,7 @@ function Sidebar() {
 						<ChatIcon />
 					</IconButton>
 					<IconButton>
-						<ExitToAppIcon onClick={() => auth.signOut()} />
+						<ExitToAppIcon color="secondary" onClick={() => auth.signOut()} />
 					</IconButton>
 				</IconsContainer>
 			</Header>
@@ -60,11 +61,9 @@ function Sidebar() {
 			</Search>
 			<StartButton onClick={createChat}>+ New Chat</StartButton>
 			{/* Chats go below */}
-			{chatsSnap.docs?.map((chat) => {
-				{
-					<Chat key={chat.id} id={chat.id} user={chat.data().users} />;
-				}
-			})}
+			{chatsSnap?.docs.map((chat) => (
+				<Chat key={chat.id} id={chat.id} user={chat.data().users} />
+			))}
 			{/* add delete , pin */}
 		</Container>
 	);
@@ -80,6 +79,7 @@ const Container = styled.div`
 const Header = styled.div`
 	display: flex;
 	justify-content: space-between;
+	border-bottom: 1px solid whitesmoke;
 	padding: 8px;
 `;
 const UserAvatar = styled(Avatar)`
@@ -103,8 +103,10 @@ const SearchInput = styled.input`
 const StartButton = styled(Button)`
 	width: 100%;
 	&&& {
-		border-top: 1px solid whitesmoke;
-		border-bottom: 1px solid whitesmoke;
+		border-top: 1px solid gray;
+		border-bottom: 1px solid gray;
+		color: #ffffff;
+		background-color: #3cbc28;
 	}
 `;
 /* &&& increases priority */
