@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Avatar, IconButton, Button } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ChatIcon from "@material-ui/icons/Chat";
 import SearchIcon from "@material-ui/icons/Search";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -8,9 +7,9 @@ import * as EmailValidator from "email-validator";
 import { auth, db } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
-import Chat from "./Chat";
-
-function Sidebar() {
+import { Chat } from "./Chat";
+import { colors } from "../utils/colors";
+export const Sidebar = () => {
 	const [user] = useAuthState(auth);
 	console.log("user", user);
 	const userChats = db
@@ -26,7 +25,6 @@ function Sidebar() {
 			input !== user.email &&
 			!duplicateCheck(input)
 		) {
-			// console.log("works!");
 			db.collection("chats").add({ users: [user.email, input] });
 		}
 	};
@@ -86,7 +84,7 @@ function Sidebar() {
 			{/* add delete , pin */}
 		</Container>
 	);
-}
+};
 
 export default Sidebar;
 
@@ -111,6 +109,7 @@ const UserAvatar = styled(Avatar)`
 	&&& {
 		height: 8rem;
 		width: 8rem;
+		border: 3px solid ${colors.black};
 	}
 	:hover {
 		opacity: 0.8;

@@ -1,10 +1,12 @@
 import Head from "next/head";
 import styled from "styled-components";
-import PhoneIcon from "@material-ui/icons/Phone";
 import { Button } from "@material-ui/core";
 import { auth, provider } from "../firebase";
+import { Message } from "@material-ui/icons";
+import { colors } from "../utils/colors";
+import GithubRibbon from "react-github-ribbon";
 
-function Login() {
+const Login = () => {
 	const handleSignIn = () => {
 		auth.signInWithPopup(provider).catch(alert);
 	};
@@ -13,18 +15,30 @@ function Login() {
 			<Head>
 				<title>Login Page</title>
 			</Head>
+			<GithubRibbon
+				user="meghana-12"
+				repo="Whatsapp-clone"
+				fill="whitesmoke"
+				color="black"
+			/>
 			<LoginContainer>
 				<IconContainer>
-					<PhoneIcon fontSize="large" />
+					<Message
+						fontSize="large"
+						style={{ color: colors.yellow }}
+						size="large"
+					/>
 				</IconContainer>
-				<Button onClick={handleSignIn} variant="outlined">
+				<Button
+					onClick={handleSignIn}
+					variant="outlined"
+					style={{ color: "whitesmoke" }}>
 					Sign in with Google
 				</Button>
 			</LoginContainer>
 		</Container>
 	);
-}
-
+};
 export default Login;
 
 const Container = styled.div`
@@ -32,7 +46,7 @@ const Container = styled.div`
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
-	background-color: whitesmoke;
+	background-color: #292e33;
 `;
 const LoginContainer = styled.div`
 	height: 13rem;
@@ -42,9 +56,11 @@ const LoginContainer = styled.div`
 	flex-direction: column;
 	justify-content: space-evenly;
 	align-items: center;
+	background-color: #292e33;
+	color: whitesmoke;
 `;
 const IconContainer = styled.div`
-	border: 4px solid #3cbc28;
-	border-radius: 4rem;
-	padding: 8px;
+	border: 4px solid ${colors.darkRed};
+	border-radius: 100%;
+	padding: 1.5rem;
 `;

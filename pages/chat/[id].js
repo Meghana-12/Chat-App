@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import Head from "next/head";
-import Sidebar from "../../components/Sidebar";
+import { Sidebar } from "../../components/Sidebar";
 import { db } from "../../firebase";
+import { ChatScreen } from "../../components/ChatScreen";
 
 const Chat = ({ chat, messages }) => {
 	return (
@@ -12,8 +13,7 @@ const Chat = ({ chat, messages }) => {
 			<Sidebar />
 
 			<ChatContainer>
-				<Header> This is a header</Header>
-				This is chat container
+				<ChatScreen chat={chat} messages={messages} />
 			</ChatContainer>
 		</Container>
 	);
@@ -68,21 +68,9 @@ const Container = styled.div`
 	background-color: #202529;
 `;
 
-const Header = styled.div`
-	height: 4rem;
-	border-bottom: 2px solid #161a1c;
-	padding: 1rem;
-	background-color: #292e33;
-	width: 100%;
-	color: whitesmoke;
-	display: flex;
-	align-items: center;
-`;
-
 const ChatContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	flex: 1;
+	height: 100vh;
 `;
-
-const ChatScreen = styled.div``;

@@ -2,12 +2,12 @@ import styled from "styled-components";
 import { Avatar } from "@material-ui/core";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { auth, db } from "../firebase";
-import getRecipentEmail from "../utils/getRecipentEmail";
+import { getRecipentEmail } from "../utils/getRecipentEmail";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { useRouter } from "next/router";
 
-function Chat({ id, users }) {
+export const Chat = ({ id, users }) => {
 	const router = useRouter();
 	const [user] = useAuthState(auth);
 	const recipientEmail = getRecipentEmail(user, users);
@@ -30,9 +30,7 @@ function Chat({ id, users }) {
 			<DeleteForeverIcon color="secondary" />
 		</Container>
 	);
-}
-
-export default Chat;
+};
 
 const Container = styled.div`
 	width: 100%;
@@ -42,7 +40,6 @@ const Container = styled.div`
 	align-items: center;
 	color: whitesmoke;
 	border-bottom: 1px solid #39393d;
-	border-width: 80%;
 	cursor: pointer;
 	:hover {
 		background-color: #39393d;
