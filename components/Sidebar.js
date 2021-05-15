@@ -78,9 +78,11 @@ function Sidebar() {
 			</Header>
 			{/* <StartButton onClick={createChat}>+ New Chat</StartButton> */}
 			{/* Chats go below */}
-			{chatsSnap?.docs.map((chat) => (
-				<Chat key={chat.id} id={chat.id} users={chat.data().users} />
-			))}
+			<ChatContainer>
+				{chatsSnap?.docs.map((chat) => (
+					<Chat key={chat.id} id={chat.id} users={chat.data().users} />
+				))}
+			</ChatContainer>
 			{/* add delete , pin */}
 		</Container>
 	);
@@ -90,9 +92,9 @@ export default Sidebar;
 
 const Container = styled.div`
 	width: 25rem;
-	border-right: 1px solid #7a7c7e;
+	border-right: 2px solid #161a1c;
 	height: 100vh;
-	background-color: #202529;
+	background-color: #292e33;
 `;
 const Header = styled.div`
 	display: flex;
@@ -101,13 +103,15 @@ const Header = styled.div`
 	justify-content: center;
 	border-bottom: 1px solid #7a7c7e;
 	padding: 1rem;
-	background-color: #39393d;
+	background-color: #292e33;
 	color: #ccc5c4;
 `;
 const UserAvatar = styled(Avatar)`
 	cursor: pointer;
-	height: 8rem;
-	width: 8rem;
+	&&& {
+		height: 8rem;
+		width: 8rem;
+	}
 	:hover {
 		opacity: 0.8;
 	}
@@ -121,7 +125,7 @@ const Search = styled.div`
 	display: flex;
 	align-items: center;
 	padding: 0.5rem;
-	background-color: #3f454d;
+	background-color: #161a1c;
 	border-radius: 2rem;
 `;
 const SearchInput = styled.input`
@@ -144,3 +148,14 @@ const StartButton = styled(Button)`
 	}
 `;
 /* &&& increases priority */
+
+const ChatContainer = styled.div`
+	overflow: scroll;
+	::-webkit-scrollbar {
+		display: none;
+	}
+	-ms-overflow-style: none;
+	/* IE and edge */
+	scrollbar-width: none;
+	/* Firefox */
+`;

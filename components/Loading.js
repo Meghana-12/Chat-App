@@ -6,8 +6,8 @@ function Loading() {
 		<center style={{ display: "grid", placeItems: "center", height: "100vh" }}>
 			<div>
 				{/* for server style rendering there is additional step to use sytled componentns so inline is simpler */}
-				<PhoneIcon fontSize="large" />
-				<Circle color="#3cbc28" size={60} />
+				{/* <PhoneIcon fontSize="large" /> */}
+				<Circle color="#eaae06" size={60} />
 			</div>
 		</center>
 	);

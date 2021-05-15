@@ -5,7 +5,10 @@ import { auth, db } from "../firebase";
 import getRecipentEmail from "../utils/getRecipentEmail";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
+import { useRouter } from "next/router";
+
 function Chat({ id, users }) {
+	const router = useRouter();
 	const [user] = useAuthState(auth);
 	const recipientEmail = getRecipentEmail(user, users);
 	const [recipientSnap] = useCollection(
@@ -13,9 +16,12 @@ function Chat({ id, users }) {
 	);
 	const recipient = recipientSnap?.docs?.[0]?.data();
 
+	const enterChat = () => {
+		router.push(`/chat/${id}`);
+	};
 	// console.log(user, users, recipientEmail);
 	return (
-		<Container>
+		<Container onClick={enterChat}>
 			<UserDetails>
 				{recipient ? <UserAvatar src={recipient?.dp} /> : <UserAvatar />}
 
@@ -37,6 +43,7 @@ const Container = styled.div`
 	color: whitesmoke;
 	border-bottom: 1px solid #39393d;
 	border-width: 80%;
+	cursor: pointer;
 	:hover {
 		background-color: #39393d;
 	}
