@@ -12,12 +12,12 @@ import { colors } from "../utils/colors";
 
 export const Sidebar = () => {
   const [user] = useAuthState(auth);
-  console.log("user", user);
+  // console.log("user", user);
   const userChats = db
     .collection("chats")
     .where("users", "array-contains", user.email);
   const [chatsSnap] = useCollection(userChats);
-  console.log("hey:", chatsSnap, userChats);
+  // console.log("hey:", chatsSnap, userChats);
   const createChat = () => {
     const input = prompt("Please enter the email address");
     if (!input) return null;
@@ -160,3 +160,8 @@ const ChatContainer = styled.div`
   scrollbar-width: none;
   /* Firefox */
 `;
+{
+  /* <a href="https://www.freepik.com/vectors/background">
+  Background vector created by 0melapics - www.freepik.com
+</a>; */
+}

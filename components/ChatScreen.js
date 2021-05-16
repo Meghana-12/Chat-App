@@ -28,6 +28,7 @@ export const ChatScreen = ({ chat, messages }) => {
       .collection("messages")
       .orderBy("timestamp", "asc")
   );
+  console.log(messagesSnap, messages);
   const showMessages = () => {
     if (messagesSnap) {
       return messagesSnap.docs.map((message) => (
@@ -39,6 +40,10 @@ export const ChatScreen = ({ chat, messages }) => {
             timestamp: message.data().timestamp?.toDate().getTime(),
           }}
         />
+      ));
+    } else {
+      return JSON.parse(messages).map((message) => (
+        <Message key={message.id} user={message.user} message={message} />
       ));
     }
   };
@@ -58,17 +63,16 @@ export const ChatScreen = ({ chat, messages }) => {
     });
     setInput("");
   };
-  // const recipientEmail = getRecipientEmail(
-  //   user,
-  //   db.collection("chats").doc(router.query.id).users()
-  // );
+  const userLogged = user;
+  // const email = getRecipientEmail(userLogged, chat.users);
+  console.log(chat.users);
   return (
     <Container>
       <Header>
         <UserProfile>
           <Avatar />
           <UserInfo>
-            <h4 style={{ margin: 0 }}>recipientEmail</h4>
+            <h4 style={{ margin: 0 }}>rec email</h4>
             <h6 style={{ margin: 0, color: "#CCC5C4" }}>seen 2 mins ago</h6>
           </UserInfo>
         </UserProfile>
@@ -82,10 +86,7 @@ export const ChatScreen = ({ chat, messages }) => {
         </IconsContainer>
       </Header>
       <MessageContainer>
-        {/* {showMessages()} */}
-        <Message />
-        <Message />
-        <Message />
+        {showMessages()}
         <EndOfMessage />
       </MessageContainer>
       <InputContainer>
