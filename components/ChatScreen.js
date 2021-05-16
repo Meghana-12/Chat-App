@@ -15,12 +15,14 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { colors } from "../utils/colors";
 import { useState } from "react";
 import firebase from "firebase";
-import { getRecipientEmail } from "../utils/getRecipentEmail";
+import { getRecipientEmail } from "../utils/getRecipientEmail";
+import TimeAgo from "timeago-react";
 
 export const ChatScreen = ({ chat, messages }) => {
   const [user] = useAuthState(auth);
   const [input, setInput] = useState("");
   const router = useRouter();
+  const recipientEmail = getRecipientEmail(user, chat.users);
   const [messagesSnap] = useCollection(
     db
       .collection("chats")
@@ -28,6 +30,10 @@ export const ChatScreen = ({ chat, messages }) => {
       .collection("messages")
       .orderBy("timestamp", "asc")
   );
+  const [RecipientSnap] = useCollection(
+    db.collection("users").where("email", "==", recipientEmail)
+  );
+  const recipient = RecipientSnap?.docs?.[0]?.data();
   console.log(messagesSnap, messages);
   const showMessages = () => {
     if (messagesSnap) {
@@ -63,17 +69,30 @@ export const ChatScreen = ({ chat, messages }) => {
     });
     setInput("");
   };
-  const userLogged = user;
-  // const email = getRecipientEmail(userLogged, chat.users);
-  console.log(chat.users);
   return (
     <Container>
       <Header>
         <UserProfile>
-          <Avatar />
+          {recipient ? <Avatar src={recipient.photoURL} /> : <Avatar />}
+
           <UserInfo>
-            <h4 style={{ margin: 0 }}>rec email</h4>
-            <h6 style={{ margin: 0, color: "#CCC5C4" }}>seen 2 mins ago</h6>
+            <h4 style={{ margin: 0 }}>{recipientEmail}</h4>
+            {RecipientSnap ? (
+              <p style={{ margin: 0 }}>
+                {recipient?.lastSeen?.toDate() ? (
+                  <h6 style={{ margin: 0, color: "#CCC5C4" }}>
+                    Last Active :{" "}
+                    <TimeAgo datetime={recipient?.lastSeen?.toDate()} />
+                  </h6>
+                ) : (
+                  <h6 style={{ margin: 0, color: "#CCC5C4" }}>Unavailable</h6>
+                )}
+              </p>
+            ) : (
+              <p style={{ margin: 0 }}>
+                <h6 style={{ margin: 0, color: "#CCC5C4" }}>Loading ...</h6>
+              </p>
+            )}
           </UserInfo>
         </UserProfile>
         <IconsContainer>

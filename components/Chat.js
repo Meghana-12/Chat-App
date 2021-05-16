@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Avatar } from "@material-ui/core";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { auth, db } from "../firebase";
-import { getRecipentEmail } from "../utils/getRecipentEmail";
+import { getRecipientEmail } from "../utils/getRecipientEmail";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { useRouter } from "next/router";
@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 export const Chat = ({ id, users }) => {
   const router = useRouter();
   const [user] = useAuthState(auth);
-  const recipientEmail = getRecipentEmail(user, users);
+  const recipientEmail = getRecipientEmail(user, users);
   const [recipientSnap] = useCollection(
     db.collection("users").where("email", "==", recipientEmail)
   );
