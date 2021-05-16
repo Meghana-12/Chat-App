@@ -95,6 +95,9 @@ const Container = styled.div`
   border-right: 2px solid #161a1c;
   height: 100vh;
   background-color: #292e33;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 `;
 const Header = styled.div`
   display: flex;
@@ -105,6 +108,9 @@ const Header = styled.div`
   padding: 1rem;
   background-color: #292e33;
   color: #ccc5c4;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 `;
 const UserAvatar = styled(Avatar)`
   cursor: pointer;
@@ -138,19 +144,8 @@ const SearchInput = styled.input`
   color: whitesmoke;
 `;
 
-const StartButton = styled(Button)`
-  width: 100%;
-  &&& {
-    /* border-top: 1px solid gray; */
-    /* border-bottom: 1px solid gray; */
-    color: #eaae06;
-    /* background-color: #eaae06; */
-    border-radius: 0;
-  }
-`;
-/* &&& increases priority */
-
 const ChatContainer = styled.div`
+  flex: 1;
   overflow: scroll;
   ::-webkit-scrollbar {
     display: none;

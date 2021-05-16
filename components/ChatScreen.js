@@ -13,7 +13,7 @@ import {
 } from "@material-ui/icons";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { colors } from "../utils/colors";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import firebase from "firebase";
 import { getRecipientEmail } from "../utils/getRecipientEmail";
 import TimeAgo from "timeago-react";
@@ -22,7 +22,14 @@ export const ChatScreen = ({ chat, messages }) => {
   const [user] = useAuthState(auth);
   const [input, setInput] = useState("");
   const router = useRouter();
+  const endOfChatsRef = useRef(null);
   const recipientEmail = getRecipientEmail(user, chat.users);
+  const scrollToBottom = () => {
+    endOfChatsRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
   const [messagesSnap] = useCollection(
     db
       .collection("chats")
@@ -68,6 +75,7 @@ export const ChatScreen = ({ chat, messages }) => {
       photoURL: user.photoURL,
     });
     setInput("");
+    scrollToBottom();
   };
   return (
     <Container>
@@ -106,7 +114,7 @@ export const ChatScreen = ({ chat, messages }) => {
       </Header>
       <MessageContainer>
         {showMessages()}
-        <EndOfMessage />
+        <EndOfMessage ref={endOfChatsRef} />
       </MessageContainer>
       <InputContainer>
         <IconButton>
@@ -136,6 +144,8 @@ const Container = styled.div`
   flex: 1;
   flex-grow: 1;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 `;
 const Header = styled.div`
   height: 4rem;
@@ -166,9 +176,19 @@ const UserProfile = styled.div`
 `;
 const IconsContainer = styled.div``;
 
-const EndOfMessage = styled.div``;
+const EndOfMessage = styled.div`
+  margin-bottom: 70px;
+`;
 const MessageContainer = styled.div`
-  min-height: 100%;
+  flex: 1;
+  overflow: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  /* IE and edge */
+  scrollbar-width: none;
+  /* Firefox */
 `;
 const InputContainer = styled.form`
   display: flex;
@@ -179,7 +199,6 @@ const InputContainer = styled.form`
   bottom: 0px;
   width: 100%;
   padding: 1rem;
-
   z-index: 100;
 `;
 const StyledInput = styled.input`
