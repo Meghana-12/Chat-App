@@ -3,7 +3,7 @@ import Head from "next/head";
 import { Sidebar } from "../../components/Sidebar";
 import { db } from "../../firebase";
 import { ChatScreen } from "../../components/ChatScreen";
-
+// import {* as ReactComponent } from '../../assets/'
 const Chat = ({ chat, messages }) => {
   return (
     <Container>

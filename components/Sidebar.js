@@ -15,7 +15,7 @@ export const Sidebar = () => {
   // console.log("user", user);
   const userChats = db
     .collection("chats")
-    .where("users", "array-contains", user.email);
+    .where("users", "array-contains", user?.email);
   const [chatsSnap] = useCollection(userChats);
   // console.log("hey:", chatsSnap, userChats);
   const createChat = () => {

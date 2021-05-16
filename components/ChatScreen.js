@@ -64,7 +64,7 @@ export const ChatScreen = ({ chat, messages }) => {
     db.collection("chats").doc(router.query.id).collection("messages").add({
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       message: input,
-      userEmail: user.email,
+      user: user.email,
       photoURL: user.photoURL,
     });
     setInput("");
